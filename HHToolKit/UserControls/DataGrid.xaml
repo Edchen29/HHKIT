@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="HHToolKit.View.DataGrid"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Metro="clr-namespace:HHToolKit.Controls.Metro" 
+             xmlns:ViewModel="clr-namespace:HHToolKit.ViewModel" 
+             xmlns:interactivity="clr-namespace:HHToolKit.Interactivity"
+             mc:Ignorable="d" d:DesignWidth="800" Height="530.226">
+    <Grid Margin="0,0,-0.302,-52.189">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Margin="12,0,-12,542.34" Grid.RowSpan="2" >
+            <Metro:AduPage MaxPageCount="2" PageIndex="1" Margin="14,0,265.698,0">
+                <interactivity:Interaction.Triggers>
+                    <interactivity:EventTrigger EventName="PageUpdated">
+                        <interactivity:EventToCommand Command="{Binding PageUpdatedCmd}" PassEventArgsToCommand="True" />
+                    </interactivity:EventTrigger>
+                </interactivity:Interaction.Triggers>
+            </Metro:AduPage>
+        </Grid>
+        <Metro:AduDataGrid Grid.Row="1" x:Name="MyDataGrid" IsReadOnly="False" MaxHeight="900" MinHeight="200" HeadersVisibility="All" AutoGenerateColumns="False" ItemsSource="{Binding Path=DataList,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"  Margin="5,5.151,91,10.34" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn CanUserResize="False" Header="Select" Width="auto">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Metro:AduCheckBox IsChecked="{Binding ElementName = MyDataGrid,Path=DataContext.IsAllChecked}" ></Metro:AduCheckBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Metro:AduCheckBox Margin="10,0,0,0" IsChecked="{Binding IsChecked,UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn CanUserResize="False"   Header="  类型" Width="80" IsReadOnly="True">
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding Header}" Width="32" Height="32" Stretch="Uniform"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="150" Binding="{Binding VariableName}" Header="变量名" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="85"  Binding="{Binding VariableAddress}" Header="变量地址" IsReadOnly="True"  >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="65"  Binding="{Binding VariableValue}" Header="读出值" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="85"  Binding="{Binding VariableValue_Write}" Header="   写入值">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </Metro:AduDataGrid>
+        <Image HorizontalAlignment="Left" Height="28" Margin="496,6,0,0" VerticalAlignment="Top" Width="28" Source="../Content/Images/in.png" Cursor="Hand" ToolTip="导入数据" >
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="MouseLeftButtonDown">
+                    <interactivity:EventToCommand Command="{Binding InportDataCommand}" PassEventArgsToCommand="True"/>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+        </Image>
+        <Image  HorizontalAlignment="Left" Height="28" Margin="456,6,0,0" VerticalAlignment="Top" Width="28" Source="../Content/Images/out.png" Cursor="Hand" ToolTip="导出数据，右击导出数据为excel表">
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="MouseLeftButtonDown">
+                    <interactivity:EventToCommand Command="{Binding ExportDataCommand}" PassEventArgsToCommand="True"/>
+                </interactivity:EventTrigger>
+                <interactivity:EventTrigger EventName="MouseRightButtonDown">
+                    <interactivity:EventToCommand Command="{Binding ExportDataDocCmd}" PassEventArgsToCommand="True"/>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+        </Image>
+    </Grid>
+</UserControl>
